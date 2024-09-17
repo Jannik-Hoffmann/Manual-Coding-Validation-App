@@ -212,7 +212,7 @@ def main():
     <div class="citation">
     If you use this tool in your academic work, please cite it as follows:
     
-    [Your Name]. (2023). Comprehensive Manual Coding Validation Tool. [Computer software]. https://github.com/yourusername/your-repo
+    Jannik Hoffmann. (2024).  Manual Coding Validation Tool. [Computer software]. https://github.com/Jannik-Hoffmann/manual-coding-validation-tools
     </div>
     """, unsafe_allow_html=True)
 
