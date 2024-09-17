@@ -48,7 +48,6 @@ Thumbs.db
 .streamlit/secrets.toml
 
 # Data files
-*.csv
 *.xlsx
 *.json
 
