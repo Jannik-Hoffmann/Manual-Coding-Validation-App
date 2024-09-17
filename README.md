@@ -97,4 +97,4 @@ WeI welcome suggestions and contributions for these and other improvements!
 
 ## Contact
 
-For questions, issues, or suggestions, please open an issue on the GitHub repository or contact [Your Name] at [your.email@example.com].
+For questions, issues, or suggestions, please open an issue on the GitHub repository.
