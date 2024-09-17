@@ -62,31 +62,38 @@ def main():
     # Column selection
     st.subheader("Column Selection")
     text_column = st.selectbox("Select the column containing the text to be coded:", full_data.columns)
-    label_column = st.selectbox("Select the column containing the predicted labels:", [col for col in full_data.columns if col not in text_column])
+    remaining_columns = [col for col in full_data.columns if col != text_column]
+    label_column = st.selectbox("Select the column containing the predicted labels:", remaining_columns)
     additional_columns = st.multiselect("Select additional columns to display (optional):", 
-                                        [col for col in full_data.columns if col not in [text_column, label_column]])
+                                        [col for col in remaining_columns if col != label_column])
 
-    # Get number of unique classes and their distribution
-    class_distribution = get_class_distribution(full_data, label_column)
-    num_classes = len(class_distribution)
-    st.write(f"Number of unique classes detected: {num_classes}")
-    
-    # Visualize class distribution
-    st.subheader("Class Distribution")
-    fig = plot_class_distribution(class_distribution, label_column)
-    st.plotly_chart(fig, use_container_width=True)
-    
-    st.write("Class distribution table:")
-    st.write(class_distribution)
+    # Confirm column selection
+    if st.button("Confirm Column Selection"):
+        st.session_state.columns_confirmed = True
 
-    # Suggest sampling method
-    suggested_method = suggest_sampling_method(num_classes, class_distribution)
-    st.write(f"Suggested sampling method: {suggested_method}")
+    # Only proceed with analysis if columns are confirmed
+    if 'columns_confirmed' in st.session_state and st.session_state.columns_confirmed:
+        # Get number of unique classes and their distribution
+        class_distribution = get_class_distribution(full_data, label_column)
+        num_classes = len(class_distribution)
+        st.write(f"Number of unique classes detected: {num_classes}")
+        
+        # Visualize class distribution
+        st.subheader("Class Distribution")
+        fig = plot_class_distribution(class_distribution, label_column)
+        st.plotly_chart(fig, use_container_width=True)
+        
+        st.write("Class distribution table:")
+        st.write(class_distribution)
 
-    # Sampling method selection
-    sampling_method = st.radio("Choose sampling method:", 
-                               ["Binary Classification", "Multi-class Random Sampling", "Stratified Sampling"],
-                               index=["binary", "multi-class", "stratified"].index(suggested_method))
+        # Suggest sampling method
+        suggested_method = suggest_sampling_method(num_classes, class_distribution)
+        st.write(f"Suggested sampling method: {suggested_method}")
+
+        # Sampling method selection
+        sampling_method = st.radio("Choose sampling method:", 
+                                   ["Binary Classification", "Multi-class Random Sampling", "Stratified Sampling"],
+                                   index=["binary", "multi-class", "stratified"].index(suggested_method))
 
     if sampling_method == "Binary Classification" or sampling_method == "Multi-class Random Sampling":
         confidence_level = st.selectbox("Select confidence level:", [0.95, 0.99], format_func=lambda x: f"{x*100}%")
