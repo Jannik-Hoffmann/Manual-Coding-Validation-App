@@ -1,4 +1,5 @@
-   # Comprehensive Manual Coding Validation Tool
+
+# Comprehensive Manual Coding Validation Tool
 
 ## Overview
 
