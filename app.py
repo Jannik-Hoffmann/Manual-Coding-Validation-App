@@ -62,8 +62,7 @@ def main():
     # Column selection
     st.subheader("Column Selection")
     text_column = st.selectbox("Select the column containing the text to be coded:", full_data.columns)
-    # when choosing the label column, default to the first column with class in its name
-    label_column = st.selectbox("Select the column containing the labels:", [col for col in full_data.columns if "class" in col.lower()])
+    label_column = st.selectbox("Select the column containing the predicted labels:", [col for col in full_data.columns if col not in text_column])
     additional_columns = st.multiselect("Select additional columns to display (optional):", 
                                         [col for col in full_data.columns if col not in [text_column, label_column]])
 
