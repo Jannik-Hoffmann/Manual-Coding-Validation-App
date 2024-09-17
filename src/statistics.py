@@ -14,13 +14,15 @@ def get_class_distribution(data, label_column):
     """
     total_count = len(data)
     return (
-        data.groupby(label_column)
+        data.group_by(label_column)
         .agg(pl.count().alias('counts'))
         .sort('counts', descending=True)
         .with_columns([
             (pl.col('counts') / total_count * 100).alias('percentage')
         ])
     )
+
+# Rest of the file remains the same
 
 def calculate_metrics(true_labels, predicted_labels):
     """
