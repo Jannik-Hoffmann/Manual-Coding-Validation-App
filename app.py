@@ -68,14 +68,80 @@ def main():
         st.stop()
     st.success(f"Dataset successfully loaded! Total population: {len(full_data):,} items")
 
-    # Upload codebook
-    codebook_file = st.file_uploader("Upload Codebook JSON", type="json")
-    if codebook_file is not None:
+    # Codebook section
+    st.subheader("Codebook (Optional)")
+    st.markdown("""
+    <div class="explanation">
+    <h4>What is a codebook and why is it useful?</h4>
+    <p>A codebook is a document that provides detailed information about the codes or labels used in your dataset. It typically includes:</p>
+    <ul>
+        <li>Code identifiers</li>
+        <li>Code names or short descriptions</li>
+        <li>Detailed explanations of what each code means</li>
+        <li>Examples or guidelines for when to apply each code</li>
+    </ul>
+    <p>Using a codebook can:</p>
+    <ul>
+        <li>Enhance consistency in manual coding</li>
+        <li>Provide quick reference during the coding process</li>
+        <li>Improve the reliability and validity of your coding results</li>
+    </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+    use_codebook = st.checkbox("Use a codebook for this project", value=False)
+
+    if use_codebook:
+        st.markdown("""
+        <div class="explanation">
+        <h4>How to create a codebook JSON file:</h4>
+        <p>Your codebook should be in JSON format with the following structure:</p>
+        <pre>
+        {
+            "code_identifier": {
+                "name": "Short name or title",
+                "description": "Detailed explanation of the code",
+                "domain": "Category or domain of the code (optional)"
+            },
+            ...
+        }
+        </pre>
+        <p>To easily create this file:</p>
+        <ol>
+            <li>Copy your existing codebook (e.g., from a PDF or document)</li>
+            <li>Use an AI language model (like ChatGPT) with the following prompt:</li>
+        </ol>
+        <pre>
+        I have a codebook for my research project. Please convert it into a JSON format with the following structure for each code:
+        {
+            "code_identifier": {
+                "name": "Short name or title",
+                "description": "Detailed explanation of the code",
+                "domain": "Category or domain of the code (optional)"
+            }
+        }
+        Here's my codebook content:
+        [Paste your codebook content here]
+        </pre>
+        <p>Review and adjust the AI-generated JSON as needed before using it in this tool.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        codebook_file = st.file_uploader("Upload Codebook JSON", type="json")
+        
+        # Load the codebook
         codebook = load_codebook(codebook_file)
+        if codebook is None:
+            st.error("Failed to load codebook. Please check the file and try again.")
+            return
         st.success("Codebook successfully loaded!")
+
+        # Add a section to display the full codebook
+        if st.button("View Complete Codebook"):
+            display_codebook(codebook)
     else:
-        st.error("Please upload a codebook JSON file to continue.")
-        return
+        codebook = None
+        st.info("No codebook will be used for this session.")
 
     # Column selection
     st.subheader("Column Selection")
@@ -190,16 +256,17 @@ def main():
             default_index = st.session_state.unique_labels.index(predicted_label) if predicted_label in st.session_state.unique_labels else 0
             manual_label = st.selectbox("Select Manual Label", options=st.session_state.unique_labels, index=default_index)
             
-            # Display coding instructions if available
-            matching_code = label_to_code_mapping.get(manual_label)
-            if matching_code and matching_code in codebook:
-                st.markdown("**Coding Instructions:**")
-                st.markdown(f"**Domain:** {codebook[matching_code]['domain']}")
-                st.markdown(f"**Code:** {matching_code}")
-                st.markdown(f"**{codebook[matching_code]['name']}**")
-                st.markdown(codebook[matching_code]['description'])
-            else:
-                st.warning("No matching coding instructions found for this label.")
+            # Display coding instructions if available and codebook is used
+            if codebook and label_to_code_mapping:
+                matching_code = label_to_code_mapping.get(manual_label)
+                if matching_code and matching_code in codebook:
+                    st.markdown("**Coding Instructions:**")
+                    st.markdown(f"**Domain:** {codebook[matching_code]['domain']}")
+                    st.markdown(f"**Code:** {matching_code}")
+                    st.markdown(f"**{codebook[matching_code]['name']}**")
+                    st.markdown(codebook[matching_code]['description'])
+                else:
+                    st.warning("No matching coding instructions found for this label.")
 
         # Add toggle for calculating statistics
         calculate_stats = st.toggle("Calculate and display statistics", value=False)
