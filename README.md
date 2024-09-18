@@ -75,14 +75,6 @@ Contributions to improve the Comprehensive Manual Coding Validation Tool are wel
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Citation
-
-If you use this tool in your academic work, please cite it as follows:
-
-```
-[Your Name]. (2023). Comprehensive Manual Coding Validation Tool. [Computer software]. https://github.com/Jannik-Hoffmann/manual-classification-validation-tool
-```
-
 ## Next Steps
 
 I am working on improving and expanding the capabilities of this tool. Currently planned improvements:
