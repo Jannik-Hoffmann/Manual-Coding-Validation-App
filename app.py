@@ -44,7 +44,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 def main():
-    st.title("Comprehensive Manual Coding Validation Tool")
+    st.title("Manual Coding Validation Tool")
     st.write("This tool helps researchers validate automated coding results through manual review and comparison.")
 
     # Dark mode toggle
@@ -61,7 +61,7 @@ def main():
 
     # Column selection
     st.subheader("Column Selection")
-    text_column = st.selectbox("Select the column containing the text to be coded x x x:", full_data.columns)
+    text_column = st.selectbox("Select the column containing the text to be coded:", full_data.columns)
     remaining_columns = [col for col in full_data.columns if col != text_column]
     label_column = st.selectbox("Select the column containing the predicted labels:", remaining_columns)
     additional_columns = st.multiselect("Select additional columns to display (optional):", 
