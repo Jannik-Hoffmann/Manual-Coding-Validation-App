@@ -53,7 +53,8 @@ def load_codebook(file):
             with open(default_file_path, 'r') as f:
                 return json.load(f)
         else:
-            return json.load(file)
+            with open(file, 'r') as file:
+                return json.load(file)
     except Exception as e:
         st.error(f"Error loading codebook: {str(e)}")
         return None
