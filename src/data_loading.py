@@ -43,9 +43,9 @@ def load_codebook(file):
     """
     try:
         if file is None:
-            current_dir = Path(__file__).parent.parent
+            current_dir = Path(__file__).parent
             default_file_path = current_dir / "data" / "default_codebook.json"
-            
+            st.info(f"Loading default codebook from {default_file_path}")
             if not default_file_path.exists():
                 st.warning(f"Default codebook not found at {default_file_path}. No codebook will be used.")
                 return None
