@@ -23,10 +23,6 @@ st.markdown("""
     .explanation { background-color: #e1f5fe; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
 </style>
 """, unsafe_allow_html=True)
-
-def load_codebook(file):
-    return json.load(file)
-
 def display_codebook(codebook):
     st.subheader("Complete Codebook")
     df = pd.DataFrame([
