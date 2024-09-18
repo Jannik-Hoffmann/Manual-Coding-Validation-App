@@ -1,6 +1,7 @@
 import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
+import pandas as pd
 
 def plot_class_distribution(class_distribution, label_column):
     """
@@ -46,7 +47,7 @@ def display_multi_class_stats(metrics):
     metrics: Dictionary of calculated metrics
     """
     st.subheader("Coding Statistics")
-    stats_df = px.DataFrame({
+    stats_df = pd.DataFrame({
         'Metric': ['Accuracy', 'Weighted Precision', 'Weighted Recall', 'Weighted F1 Score'],
         'Value': [f"{metrics['accuracy']:.2f}", f"{metrics['precision']:.2f}", 
                   f"{metrics['recall']:.2f}", f"{metrics['f1']:.2f}"]

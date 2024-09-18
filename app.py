@@ -201,6 +201,9 @@ def main():
             else:
                 st.warning("No matching coding instructions found for this label.")
 
+        # Add toggle for calculating statistics
+        calculate_stats = st.toggle("Calculate and display statistics", value=False)
+
         # Navigation and submission
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -215,7 +218,7 @@ def main():
                     'manual_label': manual_label
                 })
                 
-                if len(st.session_state.manual_labels) > 0:
+                if calculate_stats and len(st.session_state.manual_labels) > 0:
                     true_labels = [item['manual_label'] for item in st.session_state.manual_labels]
                     predicted_labels = [item['predicted_label'] for item in st.session_state.manual_labels]
                     metrics = calculate_metrics(true_labels, predicted_labels)
