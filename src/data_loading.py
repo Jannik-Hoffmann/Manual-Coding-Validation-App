@@ -45,7 +45,7 @@ def load_codebook(file):
         if file is None:
             current_dir = Path(__file__).parent.parent
             default_file_path = current_dir / "data" / "default_codebook.json"
-            st.info(f"Loading default codebook from {default_file_path}")
+            st.info(f"By default, the codebook for the default dataset ""Parliamentary Debates"" in Germany is used.")
             if not default_file_path.exists():
                 st.warning(f"Default codebook not found at {default_file_path}. No codebook will be used.")
                 return None

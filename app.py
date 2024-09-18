@@ -280,16 +280,6 @@ def main():
                     'predicted_label': predicted_label,
                     'manual_label': manual_label
                 })
-                
-                if calculate_stats and len(st.session_state.manual_labels) > 0:
-                    true_labels = [item['manual_label'] for item in st.session_state.manual_labels]
-                    predicted_labels = [item['predicted_label'] for item in st.session_state.manual_labels]
-                    metrics = calculate_metrics(true_labels, predicted_labels)
-                    display_multi_class_stats(metrics)
-                    
-                    cm = get_confusion_matrix(true_labels, predicted_labels, st.session_state.unique_labels)
-                    fig = plot_confusion_matrix(cm, st.session_state.unique_labels)
-                    st.plotly_chart(fig, use_container_width=True)
 
                 if st.session_state.current_index < len(st.session_state.coded_data) - 1:
                     st.session_state.current_index += 1
@@ -301,14 +291,28 @@ def main():
                 st.session_state.current_index += 1
                 st.rerun()
 
+        # Calculate and display statistics
+        if calculate_stats and len(st.session_state.manual_labels) > 0:
+            true_labels = [item['manual_label'] for item in st.session_state.manual_labels]
+            predicted_labels = [item['predicted_label'] for item in st.session_state.manual_labels]
+            metrics = calculate_metrics(true_labels, predicted_labels)
+            display_multi_class_stats(metrics)
+            
+            cm = get_confusion_matrix(true_labels, predicted_labels, st.session_state.unique_labels)
+            fig = plot_confusion_matrix(cm, st.session_state.unique_labels)
+            st.plotly_chart(fig, use_container_width=True)
+
         # Save results with export options
         if st.button("💾 Save Results"):
-            results_df = pl.DataFrame(st.session_state.manual_labels)
+            # Create a DataFrame with all columns from the original sample
+            results_df = st.session_state.coded_data.clone()
             
-            # Include additional columns if selected
-            if additional_columns:
-                for col in additional_columns:
-                    results_df = results_df.with_columns(pl.Series(name=col, values=st.session_state.coded_data[col]))
+            # Add manual labels and comparison column
+            manual_labels = [item['manual_label'] for item in st.session_state.manual_labels]
+            results_df = results_df.with_columns([
+                pl.Series(name='manual_label', values=manual_labels),
+                (pl.col(label_column) == pl.Series(name='manual_label', values=manual_labels)).alias('labels_match')
+            ])
             
             # Offer different export formats
             export_format = st.radio("Choose export format:", ["CSV", "Excel", "JSON"])
