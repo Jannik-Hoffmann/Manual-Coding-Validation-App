@@ -291,27 +291,23 @@ def main():
                 st.session_state.current_index += 1
                 st.rerun()
 
-        # Calculate and display statistics
-        if calculate_stats and len(st.session_state.manual_labels) > 0:
-            true_labels = [item['manual_label'] for item in st.session_state.manual_labels]
-            predicted_labels = [item['predicted_label'] for item in st.session_state.manual_labels]
-            metrics = calculate_metrics(true_labels, predicted_labels)
-            display_multi_class_stats(metrics)
-            
-            cm = get_confusion_matrix(true_labels, predicted_labels, st.session_state.unique_labels)
-            fig = plot_confusion_matrix(cm, st.session_state.unique_labels)
-            st.plotly_chart(fig, use_container_width=True)
-
         # Save results with export options
         if st.button("💾 Save Results"):
             # Create a DataFrame with all columns from the original sample
             results_df = st.session_state.coded_data.clone()
             
+            # Create a dictionary to map text to manual labels
+            manual_label_dict = {item['text']: item['manual_label'] for item in st.session_state.manual_labels}
+            
             # Add manual labels and comparison column
-            manual_labels = [item['manual_label'] for item in st.session_state.manual_labels]
             results_df = results_df.with_columns([
-                pl.Series(name='manual_label', values=manual_labels),
-                (pl.col(label_column) == pl.Series(name='manual_label', values=manual_labels)).alias('labels_match')
+                pl.col(text_column).map_dict(manual_label_dict).alias('manual_label'),
+                (pl.col(label_column) == pl.col(text_column).map_dict(manual_label_dict)).alias('labels_match')
+            ])
+            
+            # Replace None values in manual_label column with original label
+            results_df = results_df.with_columns([
+                pl.when(pl.col('manual_label').is_null()).then(pl.col(label_column)).otherwise(pl.col('manual_label')).alias('manual_label')
             ])
             
             # Offer different export formats
