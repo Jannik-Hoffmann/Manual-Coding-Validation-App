@@ -47,10 +47,6 @@ Thumbs.db
 # Streamlit
 .streamlit/secrets.toml
 
-# Data files
-*.xlsx
-*.json
-
 # Log files
 *.log
 

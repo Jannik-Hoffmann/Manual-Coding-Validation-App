@@ -36,13 +36,24 @@ def load_codebook(file):
     Load codebook from a JSON file.
     
     Args:
-    file: Uploaded JSON file
+    file: Uploaded JSON file or None for default file
     
     Returns:
     Dictionary containing the codebook
     """
     try:
-        return json.load(file)
+        if file is None:
+            current_dir = Path(__file__).parent.parent
+            default_file_path = current_dir / "data" / "default_codebook.json"
+            
+            if not default_file_path.exists():
+                st.error(f"Default codebook not found at {default_file_path}. Please upload a JSON file.")
+                return None
+            
+            with open(default_file_path, 'r') as f:
+                return json.load(f)
+        else:
+            return json.load(file)
     except Exception as e:
         st.error(f"Error loading codebook: {str(e)}")
         return None

@@ -1,0 +1,282 @@
+{
+  "per101": {
+    "name": "Foreign Special Relationships: Positive",
+    "description": "Favourable mentions of particular countries with which the manifesto country has a special relationship; the need for co-operation with and/or aid to such countries.",
+    "domain": "Domain_1_External_Relations"
+  },
+  "per102": {
+    "name": "Foreign Special Relationships: Negative",
+    "description": "Negative mentions of particular countries with which the manifesto country has a special relationship.",
+    "domain": "Domain_1_External_Relations"
+  },
+  "per103": {
+    "name": "Anti-Imperialism",
+    "description": "Negative references to imperial behaviour and/or negative references to one state exerting strong influence (political, military or commercial) over other states. May also include: Negative references to controlling other countries as if they were part of an empire; Favourable references to greater self-government and independence for colonies; Favourable mentions of de-colonisation.",
+    "domain": "Domain_1_External_Relations"
+  },
+  "per104": {
+    "name": "Military: Positive",
+    "description": "The importance of external security and defence. May include statements concerning: The need to maintain or increase military expenditure; The need to secure adequate manpower in the military; The need to modernise armed forces and improve military strength; The need for rearmament and self-defence; The need to keep military treaty obligations.",
+    "domain": "Domain_1_External_Relations"
+  },
+  "per105": {
+    "name": "Military: Negative",
+    "description": "Negative references to the military or use of military power to solve conflicts. References to the 'evils of war'. May include references to: Decreasing military expenditures; Disarmament; Reduced or abolished conscription.",
+    "domain": "Domain_1_External_Relations"
+  },
+  "per106": {
+    "name": "Peace",
+    "description": "Any declaration of belief in peace and peaceful means of solving crises – absent reference to the military. May include: Peace as a general goal; Desirability of countries joining in negotiations with hostile countries; Ending wars in order to establish peace.",
+    "domain": "Domain_1_External_Relations"
+  },
+  "per107": {
+    "name": "Internationalism: Positive",
+    "description": "Need for international co-operation, including co-operation with specific countries other than those coded in 101. May also include references to the: Need for aid to developing countries; Need for world planning of resources; Support for global governance; Need for international courts; Support for UN or other international organisations.",
+    "domain": "Domain_1_External_Relations"
+  },
+  "per108": {
+    "name": "European Community/Union: Positive",
+    "description": "Favourable mentions of European Community/Union in general. May include the: Desirability of the manifesto country joining (or remaining a member); Desirability of expanding the European Community/Union; Desirability of increasing the ECs/EUs competences; Desirability of expanding the competences of the European Parliament.",
+    "domain": "Domain_1_External_Relations"
+  },
+  "per109": {
+    "name": "Internationalism: Negative",
+    "description": "Negative references to international co-operation. Favourable mentions of national independence and sovereignty with regard to the manifesto country's foreign policy, isolation and/or unilateralism as opposed to internationalism.",
+    "domain": "Domain_1_External_Relations"
+  },
+  "per110": {
+    "name": "European Community/Union: Negative",
+    "description": "Negative references to the European Community/Union. May include: Opposition to specific European policies which are preferred by European authorities; Opposition to the net-contribution of the manifesto country to the EU budget.",
+    "domain": "Domain_1_External_Relations"
+  },
+  "per201": {
+    "name": "Freedom and Human Rights",
+    "description": "Favourable mentions of importance of personal freedom and civil rights in the manifesto and other countries. May include mentions of: The right to the freedom of speech, press, assembly etc.; Freedom from state coercion in the political and economic spheres; Freedom from bureaucratic control; The idea of individualism.",
+    "domain": "Domain_2_Freedom_and_Democracy"
+  },
+  "per202": {
+    "name": "Democracy",
+    "description": "Favourable mentions of democracy as the 'only game in town'. General support for the manifesto country's democracy. May also include: Democracy as method or goal in national, international or other organisations (e.g. labour unions, political parties etc.); The need for the involvement of all citizens in political decision-making; Support for either direct or representative democracy; Support for parts of democratic regimes (rule of law, division of powers, independence of courts etc.).",
+    "domain": "Domain_2_Freedom_and_Democracy"
+  },
+  "per203": {
+    "name": "Constitutionalism: Positive",
+    "description": "Support for maintaining the status quo of the constitution. Support for specific aspects of the manifesto country's constitution. The use of constitutionalism as an argument for any policy.",
+    "domain": "Domain_2_Freedom_and_Democracy"
+  },
+  "per204": {
+    "name": "Constitutionalism: Negative",
+    "description": "Opposition to the entirety or specific aspects of the manifesto country's constitution. Calls for constitutional amendments or changes. May include calls to abolish or rewrite the current constitution.",
+    "domain": "Domain_2_Freedom_and_Democracy"
+  },
+  "per301": {
+    "name": "Decentralization",
+    "description": "Support for federalism or decentralisation of political and/or economic power. May include: Favourable mentions of the territorial subsidiary principle; More autonomy for any sub-national level in policy making and/or economics, including municipalities; Support for the continuation and importance of local and regional customs and symbols and/or deference to local expertise; Favourable mentions of special consideration for sub-national areas.",
+    "domain": "Domain_3_Political_System"
+  },
+  "per302": {
+    "name": "Centralisation",
+    "description": "General opposition to political decision-making at lower political levels. Support for unitary government and for more centralisation in political and administrative procedures.",
+    "domain": "Domain_3_Political_System"
+  },
+  "per303": {
+    "name": "Governmental and Administrative Efficiency",
+    "description": "Need for efficiency and economy in government and administration and/or the general appeal to make the process of government and administration cheaper and more efficient. May include: Restructuring the civil service; Cutting down on the civil service; Improving bureaucratic procedures.",
+    "domain": "Domain_3_Political_System"
+  },
+  "per304": {
+    "name": "Political Corruption",
+    "description": "Need to eliminate political corruption and associated abuses of political and/or bureaucratic power. Need to abolish clientelist structures and practices.",
+    "domain": "Domain_3_Political_System"
+  },
+  "per305": {
+    "name": "Political Authority",
+    "description": "References to the manifesto party's competence to govern and/or other party's lack of such competence. Also includes favourable mentions of the desirability of a strong and/or stable government in general.",
+    "domain": "Domain_3_Political_System"
+  },
+  "per401": {
+    "name": "Free Market Economy",
+    "description": "Favourable mentions of the free market and free market capitalism as an economic model. May include favourable references to: Laissez-faire economy; Superiority of individual enterprise over state and control systems; Private property rights; Personal enterprise and initiative; Need for unhampered individual enterprises.",
+    "domain": "Domain_4_Economy"
+  },
+  "per402": {
+    "name": "Incentives: Positive",
+    "description": "Favourable mentions of supply side oriented economic policies (assistance to businesses rather than consumers). May include: Financial and other incentives such as subsidies, tax breaks etc.; Wage and tax policies to induce enterprise; Encouragement to start enterprises.",
+    "domain": "Domain_4_Economy"
+  },
+  "per403": {
+    "name": "Market Regulation",
+    "description": "Support for policies designed to create a fair and open economic market. May include: Calls for increased consumer protection; Increasing economic competition by preventing monopolies and other actions disrupting the functioning of the market; Defence of small businesses against disruptive powers of big businesses; Social market economy.",
+    "domain": "Domain_4_Economy"
+  },
+  "per404": {
+    "name": "Economic Planning",
+    "description": "Favourable mentions of long-standing economic planning by the government. May be: Policy plans, strategies, policy patterns etc.; Of a consultative or indicative nature.",
+    "domain": "Domain_4_Economy"
+  },
+  "per405": {
+    "name": "Corporatism/Mixed Economy",
+    "description": "Favourable mentions of cooperation of government, employers, and trade unions simultaneously. The collaboration of employers and employee organisations in overall economic planning supervised by the state.",
+    "domain": "Domain_4_Economy"
+  },
+  "per406": {
+    "name": "Protectionism: Positive",
+    "description": "Favourable mentions of extending or maintaining the protection of internal markets (by the manifesto or other countries). Measures may include: Tariffs; Quota restrictions; Export subsidies.",
+    "domain": "Domain_4_Economy"
+  },
+  "per407": {
+    "name": "Protectionism: Negative",
+    "description": "Support for the concept of free trade and open markets. Call for abolishing all means of market protection (in the manifesto or any other country).",
+    "domain": "Domain_4_Economy"
+  },
+  "per408": {
+    "name": "Economic Goals",
+    "description": "Broad and general economic goals that are not mentioned in relation to any other category. General economic statements that fail to include any specific goal.",
+    "domain": "Domain_4_Economy"
+  },
+  "per409": {
+    "name": "Keynesian Demand Management",
+    "description": "Favourable mentions of demand side oriented economic policies (assistance to consumers rather than businesses). Particularly includes increase private demand through: Increasing public demand; Increasing social expenditures. May also include: Stabilisation in the face of depression; Government stimulus plans in the face of economic crises.",
+    "domain": "Domain_4_Economy"
+  },
+  "per410": {
+    "name": "Economic Growth: Positive",
+    "description": "The paradigm of economic growth. Includes: General need to encourage or facilitate greater production; Need for the government to take measures to aid economic growth.",
+    "domain": "Domain_4_Economy"
+  },
+  "per411": {
+    "name": "Technology and Infrastructure: Positive",
+    "description": "Importance of modernisation of industry and updated methods of transport and communication. May include: Importance of science and technological developments in industry; Need for training and research within the economy (This does not imply education in general (see category 506); Calls for public spending on infrastructure such as roads and bridges; Support for public spending on technological infrastructure (e.g.: broadband internet, etc.).",
+    "domain": "Domain_4_Economy"
+  },
+  "per412": {
+    "name": "Controlled Economy",
+    "description": "Support for direct government control of economy. May include, for instance: Control over prices; Introduction of minimum wages.",
+    "domain": "Domain_4_Economy"
+  },
+  "per413": {
+    "name": "Nationalisation",
+    "description": "Favourable mentions of government ownership of industries, either partial or complete; calls for keeping nationalised industries in state hand or nationalising currently private industries. May also include favourable mentions of government ownership of land.",
+    "domain": "Domain_4_Economy"
+  },
+  "per414": {
+    "name": "Economic Orthodoxy",
+    "description": "Need for economically healthy government policy making. May include calls for: Reduction of budget deficits; Retrenchment in crisis; Thrift and savings in the face of economic hardship; Support for traditional economic institutions such as stock market and banking system; Support for strong currency.",
+    "domain": "Domain_4_Economy"
+  },
+  "per415": {
+    "name": "Marxist Analysis",
+    "description": "Positive references to Marxist-Leninist ideology and specific use of Marxist-Leninist terminology by the manifesto party (typically but not necessary by communist parties).",
+    "domain": "Domain_4_Economy"
+  },
+  "per416": {
+    "name": "Anti-Growth Economy: Positive",
+    "description": "Favourable mentions of anti-growth politics. Rejection of the idea that all growth is good growth. Opposition to growth that causes environmental or societal harm. Call for sustainable economic development.",
+    "domain": "Domain_4_Economy"
+  },
+  "per501": {
+    "name": "Environmental Protection",
+    "description": "General policies in favour of protecting the environment, fighting climate change, and other 'green' policies. For instance: General preservation of natural resources; Preservation of countryside, forests, etc.; Protection of national parks; Animal rights. May include a great variance of policies that have the unified goal of environmental protection.",
+    "domain": "Domain_5_Welfare_and_Quality_of_Life"
+  },
+  "per502": {
+    "name": "Culture: Positive",
+    "description": "Need for state funding of cultural and leisure facilities including arts and sport. May include: The need to fund museums, art galleries, libraries etc.; The need to encourage cultural mass media and worthwhile leisure activities, such as public sport clubs.",
+    "domain": "Domain_5_Welfare_and_Quality_of_Life"
+  },
+  "per503": {
+    "name": "Equality: Positive",
+    "description": "Concept of social justice and the need for fair treatment of all people. This may include: Special protection for underprivileged social groups; Removal of class barriers; Need for fair distribution of resources; The end of discrimination (e.g. racial or sexual discrimination).",
+    "domain": "Domain_5_Welfare_and_Quality_of_Life"
+  },
+  "per504": {
+    "name": "Welfare State Expansion",
+    "description": "Favourable mentions of need to introduce, maintain or expand any public social service or social security scheme. This includes, for example, government funding of: Health care, Child care, Elder care and pensions, Social housing. Note: This category excludes education.",
+    "domain": "Domain_5_Welfare_and_Quality_of_Life"
+  },
+  "per505": {
+    "name": "Welfare State Limitation",
+    "description": "Limiting state expenditures on social services or social security. Favourable mentions of the social subsidiary principle (i.e. private care before state care);",
+    "domain": "Domain_5_Welfare_and_Quality_of_Life"
+  },
+  "per506": {
+    "name": "Education Expansion",
+    "description": "Need to expand and/or improve educational provision at all levels. Note: This excludes technical training which is coded under 411.",
+    "domain": "Domain_5_Welfare_and_Quality_of_Life"
+  },
+  "per507": {
+    "name": "Education Limitation",
+    "description": "Limiting state expenditure on education. May include: The introduction or expansion of study fees at all educational levels; Increasing the number of private schools.",
+    "domain": "Domain_5_Welfare_and_Quality_of_Life"
+  },
+  "per601": {
+    "name": "National Way of Life: Positive",
+    "description": "Favourable mentions of the manifesto country's nation, history, and general appeals. May include: Support for established national ideas; General appeals to pride of citizenship; Appeals to patriotism; Appeals to nationalism; Suspension of some freedoms in order to protect the state against subversion.",
+    "domain": "Domain_6_Fabric_of_Society"
+  },
+  "per602": {
+    "name": "National Way of Life: Negative",
+    "description": "Unfavourable mentions of the manifesto country's nation and history. May include: Opposition to patriotism; Opposition to nationalism; Opposition to the existing national state, national pride, and national ideas.",
+    "domain": "Domain_6_Fabric_of_Society"
+  },
+  "per603": {
+    "name": "Traditional Morality: Positive",
+    "description": "Favourable mentions of traditional and/or religious moral values. May include: Prohibition, censorship and suppression of immorality and unseemly behaviour; Maintenance and stability of the traditional family as a value; Support for the role of religious institutions in state and society.",
+    "domain": "Domain_6_Fabric_of_Society"
+  },
+  "per604": {
+    "name": "Traditional Morality: Negative",
+    "description": "Opposition to traditional and/or religious moral values. May include: Support for divorce, abortion etc.; General support for modern family composition; Calls for the separation of church and state.",
+    "domain": "Domain_6_Fabric_of_Society"
+  },
+  "per605": {
+    "name": "Law and Order: Positive",
+    "description": "Favourable mentions of strict law enforcement, and tougher actions against domestic crime. Only refers to the enforcement of the status quo of the manifesto country's law code. May include: Increasing support and resources for the police; Tougher attitudes in courts; Importance of internal security.",
+    "domain": "Domain_6_Fabric_of_Society"
+  },
+  "per606": {
+    "name": "Civic Mindedness: Positive",
+    "description": "Appeals for national solidarity and the need for society to see itself as united. Calls for solidarity with and help for fellow people, familiar and unfamiliar. May include: Favourable mention of the civil society; Decrying anti-social attitudes in times of crisis; Appeal for public spiritedness; Support for the public interest.",
+    "domain": "Domain_6_Fabric_of_Society"
+  },
+  "per607": {
+    "name": "Multiculturalism: Positive",
+    "description": "Favourable mentions of cultural diversity and cultural plurality within domestic societies. May include the preservation of autonomy of religious, linguistic heritages within the country including special educational provisions.",
+    "domain": "Domain_6_Fabric_of_Society"
+  },
+  "per608": {
+    "name": "Multiculturalism: Negative",
+    "description": "The enforcement or encouragement of cultural integration. Appeals for cultural homogeneity in society.",
+    "domain": "Domain_6_Fabric_of_Society"
+  },
+  "per701": {
+    "name": "Labour Groups: Positive",
+    "description": "Favourable references to all labour groups, the working class, and unemployed workers in general. Support for trade unions and calls for the good treatment of all employees, including: More jobs; Good working conditions; Fair wages; Pension provisions etc.",
+    "domain": "Domain_7_Social_Groups"
+  },
+  "per702": {
+    "name": "Labour Groups: Negative",
+    "description": "Negative references to labour groups and trade unions. May focus specifically on the danger of unions 'abusing power'.",
+    "domain": "Domain_7_Social_Groups"
+  },
+  "per703": {
+    "name": "Agriculture and Farmers: Positive",
+    "description": "Specific policies in favour of agriculture and farmers. Includes all types of agriculture and farming practises. Only statements that have agriculture as the key goal should be included in this category.",
+    "domain": "Domain_7_Social_Groups"
+  },
+  "per704": {
+    "name": "Middle Class and Professional Groups",
+    "description": "General favourable references to the middle class. Specifically, statements may include references to: Professional groups, (e.g.: doctors or lawyers); White collar groups, (e.g.: bankers or office employees), Service sector groups (e.g.: IT industry employees); Old and/or new middle class. Note: This is not an economical category but refers to the social group(s).",
+    "domain": "Domain_7_Social_Groups"
+  },
+  "per705": {
+    "name": "Underprivileged Minority Groups",
+    "description": "Very general favourable references to underprivileged minorities who are defined neither in economic nor in demographic terms (e.g. the handicapped, homosexuals, immigrants, indigenous). Only includes favourable statements that cannot be classified in other categories (e.g. 503, 504, 604, 607 etc.)",
+    "domain": "Domain_7_Social_Groups"
+  },
+  "per706": {
+    "name": "Non-economic Demographic Groups",
+    "description": "General favourable mentions of demographically defined special interest groups of all kinds. They may include: Women; University students; Old, young, or middle aged people. Might include references to assistance to these groups, but only if these do not fall under other categories (e.g. 503 or 504)",
+    "domain": "Domain_7_Social_Groups"
+  }
+}
