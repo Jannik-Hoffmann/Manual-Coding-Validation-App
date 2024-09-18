@@ -6,4 +6,3 @@ plotly
 matplotlib
 seaborn
 openpyxl
-math
