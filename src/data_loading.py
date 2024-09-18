@@ -1,6 +1,7 @@
 import polars as pl
 import streamlit as st
 from pathlib import Path
+import json
 
 @st.cache_data
 def load_data(file):
@@ -15,9 +16,7 @@ def load_data(file):
     """
     try:
         if file is None:
-            # Get the directory of the current script
             current_dir = Path(__file__).parent.parent
-            # Construct the path to the default dataset
             default_file_path = current_dir / "data" / "preprocessed_data.csv"
             
             if not default_file_path.exists():
@@ -29,4 +28,21 @@ def load_data(file):
             return pl.read_csv(file)
     except Exception as e:
         st.error(f"Error loading file: {str(e)}")
+        return None
+
+@st.cache_data
+def load_codebook(file):
+    """
+    Load codebook from a JSON file.
+    
+    Args:
+    file: Uploaded JSON file
+    
+    Returns:
+    Dictionary containing the codebook
+    """
+    try:
+        return json.load(file)
+    except Exception as e:
+        st.error(f"Error loading codebook: {str(e)}")
         return None

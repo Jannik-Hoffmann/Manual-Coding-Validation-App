@@ -1,5 +1,6 @@
 import polars as pl
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+from difflib import get_close_matches
 
 def get_class_distribution(data, label_column):
     """
@@ -21,8 +22,6 @@ def get_class_distribution(data, label_column):
             (pl.col('counts') / total_count * 100).alias('percentage')
         ])
     )
-
-# Rest of the file remains the same
 
 def calculate_metrics(true_labels, predicted_labels):
     """
@@ -73,3 +72,27 @@ def suggest_sampling_method(num_classes, class_distribution):
         return "stratified"
     else:
         return "multi-class"
+
+def create_label_to_code_mapping(unique_labels, codebook):
+    """
+    Create a mapping between labels and codebook codes.
+    
+    Args:
+    unique_labels: List of unique labels
+    codebook: Dictionary containing the codebook
+    
+    Returns:
+    Dictionary mapping labels to codebook codes
+    """
+    mapping = {}
+    for label in unique_labels:
+        label_number = ''.join(filter(str.isdigit, label))[:3]
+        codebook_key = f"per{label_number}"
+        
+        if codebook_key in codebook:
+            mapping[label] = codebook_key
+        else:
+            closest_matches = get_close_matches(codebook_key, codebook.keys(), n=1, cutoff=0.6)
+            mapping[label] = closest_matches[0] if closest_matches else None
+    
+    return mapping
