@@ -39,7 +39,7 @@ def load_codebook(file):
     file: Uploaded JSON file or None for default file
     
     Returns:
-    Dictionary containing the codebook
+    Dictionary containing the codebook or None if no codebook is available
     """
     try:
         if file is None:

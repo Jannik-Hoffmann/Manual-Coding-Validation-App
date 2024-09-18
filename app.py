@@ -5,7 +5,7 @@ import io
 import base64
 import json
 
-from src.data_loading import load_data
+from src.data_loading import load_data,load_codebook
 from src.sampling import get_random_sample, get_stratified_sample, calculate_sample_size
 from src.statistics import get_class_distribution, calculate_metrics, get_confusion_matrix, suggest_sampling_method, create_label_to_code_mapping
 from src.visualization import plot_class_distribution, plot_confusion_matrix, display_multi_class_stats
@@ -132,12 +132,12 @@ def main():
         # Load the codebook (custom if uploaded, otherwise default)
         codebook = load_codebook(codebook_file)
         if codebook is None:
-            st.warning("No codebook available. Please upload a codebook or check if the default codebook is present.")
+            st.warning("No codebook available. Please check if the default codebook is present or upload a custom codebook.")
         else:
             st.success("Codebook successfully loaded!")
 
             # Add a section to display the full codebook
-            if st.button("View Complete Codebook"):
+            if st.button("View Complete Codebook", key="view_codebook"):
                 display_codebook(codebook)
     else:
         codebook = None
