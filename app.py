@@ -69,7 +69,7 @@ def main():
     st.success(f"Dataset successfully loaded! Total population: {len(full_data):,} items")
 
     # Codebook section
-    st.subheader("Codebook (Optional)")
+    st.subheader("Codebook")
     st.markdown("""
     <div class="explanation">
     <h4>What is a codebook and why is it useful?</h4>
@@ -89,7 +89,7 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    use_codebook = st.checkbox("Use a codebook for this project", value=False)
+    use_codebook = st.checkbox("Use a codebook for this project", value=True)
 
     if use_codebook:
         st.markdown("""
@@ -127,18 +127,18 @@ def main():
         </div>
         """, unsafe_allow_html=True)
 
-        codebook_file = st.file_uploader("Upload Codebook JSON", type="json")
+        codebook_file = st.file_uploader("Upload Custom Codebook JSON (optional)", type="json")
         
-        # Load the codebook
+        # Load the codebook (custom if uploaded, otherwise default)
         codebook = load_codebook(codebook_file)
         if codebook is None:
-            st.error("Failed to load codebook. Please check the file and try again.")
-            return
-        st.success("Codebook successfully loaded!")
+            st.warning("No codebook available. Please upload a codebook or check if the default codebook is present.")
+        else:
+            st.success("Codebook successfully loaded!")
 
-        # Add a section to display the full codebook
-        if st.button("View Complete Codebook"):
-            display_codebook(codebook)
+            # Add a section to display the full codebook
+            if st.button("View Complete Codebook"):
+                display_codebook(codebook)
     else:
         codebook = None
         st.info("No codebook will be used for this session.")

@@ -33,7 +33,7 @@ def load_data(file):
 @st.cache_data
 def load_codebook(file):
     """
-    Load codebook from a JSON file.
+    Load codebook from a JSON file or use the default codebook.
     
     Args:
     file: Uploaded JSON file or None for default file
@@ -44,10 +44,10 @@ def load_codebook(file):
     try:
         if file is None:
             current_dir = Path(__file__).parent.parent
-            default_file_path = current_dir / "data" / "default_codebook.json"
+            default_file_path = current_dir / "data" / "codebook.json"
             
             if not default_file_path.exists():
-                st.error(f"Default codebook not found at {default_file_path}. Please upload a JSON file.")
+                st.warning(f"Default codebook not found at {default_file_path}. No codebook will be used.")
                 return None
             
             with open(default_file_path, 'r') as f:
