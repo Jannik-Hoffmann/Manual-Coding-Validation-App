@@ -5,7 +5,7 @@ import io
 import base64
 import json
 
-from src.data_loading import load_data,load_codebook
+from src.data_loading import load_data, load_codebook
 from src.sampling import get_random_sample, get_stratified_sample, calculate_sample_size
 from src.statistics import get_class_distribution, calculate_metrics, get_confusion_matrix, suggest_sampling_method, create_label_to_code_mapping
 from src.visualization import plot_class_distribution, plot_confusion_matrix, display_multi_class_stats
@@ -23,6 +23,7 @@ st.markdown("""
     .explanation { background-color: #e1f5fe; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
 </style>
 """, unsafe_allow_html=True)
+
 def display_codebook(codebook):
     st.subheader("Complete Codebook")
     df = pd.DataFrame([
@@ -55,14 +56,116 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    # File uploader for custom dataset
-    uploaded_file = st.file_uploader("Upload your own dataset (CSV)", type="csv")
-    
-    # Load the dataset
-    full_data = load_data(uploaded_file)
-    if full_data is None:
-        st.stop()
-    st.success(f"Dataset successfully loaded! Total population: {len(full_data):,} items")
+    # Data loading options
+    data_option = st.radio(
+        "Choose data loading option:",
+        ("Upload full dataset and sample", "Upload pre-sampled dataset")
+    )
+
+    if data_option == "Upload full dataset and sample":
+        uploaded_file = st.file_uploader("Upload your full dataset (CSV)", type="csv")
+        full_data = load_data(uploaded_file, is_sample=False)
+        if full_data is None:
+            st.stop()
+        st.success(f"Full dataset successfully loaded! Total population: {len(full_data):,} items")
+
+        # Column selection for full dataset
+        text_column = st.selectbox("Select the column containing the text to be coded:", full_data.columns)
+        remaining_columns = [col for col in full_data.columns if col != text_column]
+        label_column = st.selectbox("Select the column containing the predicted labels:", remaining_columns)
+        additional_columns = st.multiselect("Select additional columns to display (optional):", 
+                                            [col for col in remaining_columns if col != label_column])
+
+        # Get number of unique classes and their distribution
+        class_distribution = get_class_distribution(full_data, label_column)
+        num_classes = len(class_distribution)
+        st.write(f"Number of unique classes detected: {num_classes}")
+        
+        # Visualize class distribution
+        st.subheader("Class Distribution")
+        fig = plot_class_distribution(class_distribution, label_column)
+        st.plotly_chart(fig, use_container_width=True)
+        
+        st.write("Class distribution table:")
+        st.write(class_distribution)
+
+        # Suggest sampling method
+        suggested_method = suggest_sampling_method(num_classes, class_distribution)
+        st.write(f"Suggested sampling method: {suggested_method}")
+
+        # Sampling method selection
+        st.markdown("""
+        <div class="explanation">
+        <h3>Sampling Method and Size</h3>
+        <p>Choosing the right sampling method and size is crucial for ensuring the validity and reliability of your manual coding validation process. Here's what you need to know:</p>
+        <ul>
+            <li><strong>Binary Classification:</strong> Used when you have only two classes. It's simple and straightforward, but may not be suitable for complex multi-class problems.</li>
+            <li><strong>Multi-class Random Sampling:</strong> Suitable for datasets with multiple classes where each class is well-represented. It ensures each item has an equal chance of being selected.</li>
+            <li><strong>Stratified Sampling:</strong> Ideal for datasets with imbalanced class distributions. It ensures that the sample maintains the same class proportions as the full dataset.</li>
+        </ul>
+        <p>The sample size is calculated based on your desired confidence level and margin of error. A larger sample size increases precision but requires more manual coding effort.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        sampling_method = st.radio("Choose sampling method:", 
+                                   ["Binary Classification", "Multi-class Random Sampling", "Stratified Sampling"],
+                                   index=["binary", "multi-class", "stratified"].index(suggested_method))
+
+        if sampling_method == "Binary Classification" or sampling_method == "Multi-class Random Sampling":
+            confidence_level = st.selectbox("Select confidence level:", [0.95, 0.99], format_func=lambda x: f"{x*100}%",
+                                            help="Choose the desired confidence level for your sample.")
+            margin_of_error = st.slider("Select margin of error:", 0.01, 0.10, 0.05, 0.01, format="%0.2f",
+                                        help="Choose the acceptable margin of error for your sample.")
+            expected_proportion = st.slider("Expected proportion:", 0.1, 0.9, 0.5, 0.1,
+                                            help="Estimate the expected proportion of the most prevalent class. Use 0.5 if unsure.")
+            sample_size = calculate_sample_size(confidence_level, margin_of_error, num_classes if sampling_method == "Multi-class Random Sampling" else 2, expected_proportion)
+            st.write(f"Calculated sample size: {sample_size}")
+            
+            if st.button("Generate Sample"):
+                st.session_state.coded_data = get_random_sample(full_data, sample_size)
+                st.session_state.unique_labels = sorted(full_data[label_column].unique().to_list())
+                st.session_state.current_index = 0
+                st.session_state.manual_labels = []
+                st.session_state.data_loaded = True
+                st.rerun()
+
+        elif sampling_method == "Stratified Sampling":
+            min_samples_per_class = st.number_input("Minimum samples per class:", min_value=1, value=5,
+                                                    help="Set the minimum number of samples to include for each class.")
+            max_samples_per_class = st.number_input("Maximum samples per class:", min_value=min_samples_per_class, value=30,
+                                                    help="Set the maximum number of samples to include for each class.")
+
+            if st.button("Generate Stratified Sample"):
+                st.session_state.coded_data = get_stratified_sample(full_data, label_column, min_samples_per_class, max_samples_per_class, class_distribution)
+                st.session_state.unique_labels = sorted(full_data[label_column].unique().to_list())
+                st.session_state.current_index = 0
+                st.session_state.manual_labels = []
+                st.session_state.data_loaded = True
+                st.write(f"Stratified sample generated. Total samples: {len(st.session_state.coded_data)}")
+                st.write("Sample class distribution:")
+                sample_distribution = get_class_distribution(st.session_state.coded_data, label_column)
+                st.write(sample_distribution)
+                st.rerun()
+
+    else:  # "Upload pre-sampled dataset"
+        uploaded_sample = st.file_uploader("Upload your pre-sampled dataset (CSV)", type="csv")
+        working_data = load_data(uploaded_sample, is_sample=True)
+        if working_data is None:
+            st.stop()
+        st.success(f"Pre-sampled dataset successfully loaded! Total samples: {len(working_data):,}")
+        st.session_state.data_loaded = True
+        st.session_state.coded_data = working_data
+
+        # Column selection for pre-sampled dataset
+        text_column = st.selectbox("Select the column containing the text to be coded:", working_data.columns)
+        remaining_columns = [col for col in working_data.columns if col != text_column]
+        label_column = st.selectbox("Select the column containing the predicted labels:", remaining_columns)
+        additional_columns = st.multiselect("Select additional columns to display (optional):", 
+                                            [col for col in remaining_columns if col != label_column])
+
+        st.session_state.unique_labels = sorted(working_data[label_column].unique().to_list())
+        st.session_state.current_index = 0
+        st.session_state.manual_labels = []
 
     # Codebook section
     st.subheader("Codebook")
@@ -139,100 +242,11 @@ def main():
         codebook = None
         st.info("No codebook will be used for this session.")
 
-    # Column selection
-    st.subheader("Column Selection")
-    text_column = st.selectbox("Select the column containing the text to be coded:", full_data.columns)
-    remaining_columns = [col for col in full_data.columns if col != text_column]
-    label_column = st.selectbox("Select the column containing the predicted labels:", remaining_columns)
-    additional_columns = st.multiselect("Select additional columns to display (optional):", 
-                                        [col for col in remaining_columns if col != label_column])
-
-    # Confirm column selection
-    if st.button("Confirm Column Selection"):
-        st.session_state.columns_confirmed = True
-
-    # Only proceed with analysis if columns are confirmed
-    if 'columns_confirmed' in st.session_state and st.session_state.columns_confirmed:
-        # Get number of unique classes and their distribution
-        class_distribution = get_class_distribution(full_data, label_column)
-        num_classes = len(class_distribution)
-        st.write(f"Number of unique classes detected: {num_classes}")
-        
-        # Create label to code mapping
-        unique_labels = full_data[label_column].unique().to_list()
-        label_to_code_mapping = create_label_to_code_mapping(unique_labels, codebook)
-        
-        # Visualize class distribution
-        st.subheader("Class Distribution")
-        fig = plot_class_distribution(class_distribution, label_column)
-        st.plotly_chart(fig, use_container_width=True)
-        
-        st.write("Class distribution table:")
-        st.write(class_distribution)
-
-        # Suggest sampling method
-        suggested_method = suggest_sampling_method(num_classes, class_distribution)
-        st.write(f"Suggested sampling method: {suggested_method}")
-
-        # Sampling method selection
-        st.markdown("""
-        <div class="explanation">
-        <h3>Sampling Method and Size</h3>
-        <p>Choosing the right sampling method and size is crucial for ensuring the validity and reliability of your manual coding validation process. Here's what you need to know:</p>
-        <ul>
-            <li><strong>Binary Classification:</strong> Used when you have only two classes. It's simple and straightforward, but may not be suitable for complex multi-class problems.</li>
-            <li><strong>Multi-class Random Sampling:</strong> Suitable for datasets with multiple classes where each class is well-represented. It ensures each item has an equal chance of being selected.</li>
-            <li><strong>Stratified Sampling:</strong> Ideal for datasets with imbalanced class distributions. It ensures that the sample maintains the same class proportions as the full dataset.</li>
-        </ul>
-        <p>The sample size is calculated based on your desired confidence level and margin of error. A larger sample size increases precision but requires more manual coding effort.</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-        sampling_method = st.radio("Choose sampling method:", 
-                                   ["Binary Classification", "Multi-class Random Sampling", "Stratified Sampling"],
-                                   index=["binary", "multi-class", "stratified"].index(suggested_method))
-
-        if sampling_method == "Binary Classification" or sampling_method == "Multi-class Random Sampling":
-            confidence_level = st.selectbox("Select confidence level:", [0.95, 0.99], format_func=lambda x: f"{x*100}%",
-                                            help="Choose the desired confidence level for your sample.")
-            margin_of_error = st.slider("Select margin of error:", 0.01, 0.10, 0.05, 0.01, format="%0.2f",
-                                        help="Choose the acceptable margin of error for your sample.")
-            expected_proportion = st.slider("Expected proportion:", 0.1, 0.9, 0.5, 0.1,
-                                            help="Estimate the expected proportion of the most prevalent class. Use 0.5 if unsure.")
-            sample_size = calculate_sample_size(confidence_level, margin_of_error, num_classes if sampling_method == "Multi-class Random Sampling" else 2, expected_proportion)
-            st.write(f"Calculated sample size: {sample_size}")
-            
-            if st.button("Generate Sample"):
-                st.session_state.coded_data = get_random_sample(full_data, sample_size)
-                st.session_state.unique_labels = sorted(full_data[label_column].unique().to_list())
-                st.session_state.current_index = 0
-                st.session_state.manual_labels = []
-                st.session_state.data_loaded = True
-                st.rerun()
-
-        elif sampling_method == "Stratified Sampling":
-            min_samples_per_class = st.number_input("Minimum samples per class:", min_value=1, value=5,
-                                                    help="Set the minimum number of samples to include for each class.")
-            max_samples_per_class = st.number_input("Maximum samples per class:", min_value=min_samples_per_class, value=30,
-                                                    help="Set the maximum number of samples to include for each class.")
-
-            if st.button("Generate Stratified Sample"):
-                st.session_state.coded_data = get_stratified_sample(full_data, label_column, min_samples_per_class, max_samples_per_class, class_distribution)
-                st.session_state.unique_labels = sorted(full_data[label_column].unique().to_list())
-                st.session_state.current_index = 0
-                st.session_state.manual_labels = []
-                st.session_state.data_loaded = True
-                st.write(f"Stratified sample generated. Total samples: {len(st.session_state.coded_data)}")
-                st.write("Sample class distribution:")
-                sample_distribution = get_class_distribution(st.session_state.coded_data, label_column)
-                st.write(sample_distribution)
-                st.rerun()
-
-        # Add a section to display the full codebook
-        if st.button("View Complete Codebook"):
-            display_codebook(codebook)
-
+    # Create label to code mapping
     if 'data_loaded' in st.session_state and st.session_state.data_loaded:
+        unique_labels = st.session_state.unique_labels
+        label_to_code_mapping = create_label_to_code_mapping(unique_labels, codebook)
+
         # Main coding interface
         st.subheader("Coding Interface")
         current_row = st.session_state.coded_data.row(st.session_state.current_index, named=True)
@@ -282,6 +296,7 @@ def main():
                 })
 
                 if st.session_state.current_index < len(st.session_state.coded_data) - 1:
+                    if st.session_state.current_index < len(st.session_state.coded_data) - 1:
                     st.session_state.current_index += 1
                     st.rerun()
                 else:
@@ -290,6 +305,17 @@ def main():
             if st.button("Next ➡️") and st.session_state.current_index < len(st.session_state.coded_data) - 1:
                 st.session_state.current_index += 1
                 st.rerun()
+
+        # Calculate and display statistics
+        if calculate_stats and len(st.session_state.manual_labels) > 0:
+            true_labels = [item['manual_label'] for item in st.session_state.manual_labels]
+            predicted_labels = [item['predicted_label'] for item in st.session_state.manual_labels]
+            metrics = calculate_metrics(true_labels, predicted_labels)
+            display_multi_class_stats(metrics)
+            
+            cm = get_confusion_matrix(true_labels, predicted_labels, st.session_state.unique_labels)
+            fig = plot_confusion_matrix(cm, st.session_state.unique_labels)
+            st.plotly_chart(fig, use_container_width=True)
 
         # Save results with export options
         if st.button("💾 Save Results"):
@@ -348,4 +374,4 @@ def main():
     """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
-    main()  
+    main()
