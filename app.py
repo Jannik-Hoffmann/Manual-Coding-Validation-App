@@ -297,8 +297,8 @@ def main():
 
                 if st.session_state.current_index < len(st.session_state.coded_data) - 1:
                     if st.session_state.current_index < len(st.session_state.coded_data) - 1:
-                    st.session_state.current_index += 1
-                    st.rerun()
+                        st.session_state.current_index += 1
+                        st.rerun()
                 else:
                     st.success("Coding completed!")
         with col3:
