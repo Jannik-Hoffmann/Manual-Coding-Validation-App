@@ -7,7 +7,7 @@ The Comprehensive Manual Coding Validation Tool is a Streamlit-based web applica
 
 ## Live Demo
 
-You can try out the tool without any installation by visiting our hosted Streamlit app:
+You can try out the tool without any installation by visiting my hosted Streamlit app:
 
 [https://manual-coding-validation-tool.streamlit.app](https://coding-validation.streamlit.app)
 
